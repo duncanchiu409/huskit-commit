@@ -1,0 +1,31 @@
+{
+  "name": "huskit-commit",
+  "version": "1.0.1",
+  "description": "[LLM Automation] A npm husky package for writing commit with LLM",
+  "main": "dist/index.js",
+  "repository": {
+    "url": "https://github.com/duncanchiu409/huskit-commit.git"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "prerelease": "pnpm run build",
+    "release": "standard-version -t build_ && git push --follow-tags origin main && pnpm publish",
+    "prettier": "prettier --write \"**/*.+(js|jsx|ts|tsx|json)\"",
+    "eslint": "eslint \"**/*.+(ts|tsx)\"",
+    "start:inspect": "nodemon --exec \"node --require ts-node/register index.ts\""
+  },
+  "keywords": [],
+  "author": "duncanchiu409",
+  "license": "ISC",
+  "packageManager": "pnpm@10.10.0",
+  "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "eslint": "^9.27.0",
+    "husky": "^9.1.7",
+    "lint-staged": "15.5.2",
+    "prettier": "^3.5.3",
+    "standard-version": "^9.5.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1"
+  }
+}
