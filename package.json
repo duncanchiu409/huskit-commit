@@ -12,6 +12,7 @@
     "release": "standard-version -t build_ && git push --follow-tags origin main && pnpm publish",
     "prettier": "prettier --write \"**/*.+(js|jsx|ts|tsx|json)\"",
     "eslint": "eslint \"**/*.+(ts|tsx)\"",
+    "build": "rm -rf dist/ && tsc --project tsconfig.json",
     "start:inspect": "nodemon --exec \"node --require ts-node/register index.ts\""
   },
   "keywords": [],
