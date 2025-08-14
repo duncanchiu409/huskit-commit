@@ -13,6 +13,7 @@
     "prettier": "prettier --write \"**/*.+(js|jsx|ts|tsx|json)\"",
     "eslint": "eslint \"**/*.+(ts|tsx)\"",
     "build": "rm -rf dist/ && tsc --project tsconfig.json",
+    "start": "node --require ts-node/register index.ts",
     "start:inspect": "nodemon --exec \"node --require ts-node/register index.ts\"",
     "test": "pnpm run build && git add index.ts && git commit -m 'Add: column ABCD' && git reset HEAD~",
     "test:inspect": "nodemon --exec \"node --require ts-node/register test.ts\""

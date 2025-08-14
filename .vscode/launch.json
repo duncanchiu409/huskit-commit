@@ -3,10 +3,10 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "[LOCAL] API",
+      "name": "[LOCAL] Huskit Commit",
       "runtimeVersion": "18.20.8",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["run-script", "test"],
+      "runtimeArgs": ["run-script", "start"],
       "console": "integratedTerminal",
       "env": {
         "NODE_ENV": "local"
