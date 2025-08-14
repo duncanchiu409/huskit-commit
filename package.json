@@ -4,7 +4,7 @@
   "description": "[LLM Automation] A npm husky package for writing commit with LLM",
   "main": "dist/index.js",
   "repository": {
-    "url": "https://github.com/duncanchiu409/huskit-commit.git"
+    "url": "https://github.com/duncanchiu409/huskit-commit"
   },
   "scripts": {
     "prepare": "husky",
