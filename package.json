@@ -1,6 +1,6 @@
 {
   "name": "huskit-commit",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "[LLM Automation] A npm husky package for writing commit with LLM",
   "main": "dist/index.js",
   "repository": {
