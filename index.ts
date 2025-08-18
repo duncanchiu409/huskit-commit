@@ -5,56 +5,112 @@ import "dotenv/config";
 // import { readFile } from 'node:fs/promises';
 // import OllamaService from './src/service/ollamaService';
 import NpmService from "./src/service/npmService";
+import { ArgumentParser } from "argparse";
+import { configHandler } from "./src/handler/configHandler";
+import { huskyHandler } from "./src/handler/huskyHandler";
+import { commitHandler } from "./src/handler/commitHandler";
 
 (async () => {
-  // console.log("");
-  // console.log("---------- Running Huskit Commit Handler ----------");
-  // const diff = await GitHelper.get_staged_diff();
-  // const current_dir = cwd();
-  // const commitFilePath = join(current_dir, ".git", "COMMIT_EDITMSG");
-  // const commitMessage = await readFile(commitFilePath, "utf8");
-  // console.log("---------- Start of Your Commit Message -----------");
-  // console.log("");
-  // console.log(commitMessage.trim());
-  // console.log("");
-  // console.log("---------- End of Your Commit Message -------------");
-  // const ollamaService = new OllamaService("deepseek-r1:8b");
-  // const condensedMessage = await ollamaService.chat(commitMessage, diff);
-  // console.log("---------- Start of Condensed Message -------------");
-  // console.log("");
-  // console.log(condensedMessage);
-  // console.log("");
-  // console.log("---------- End of Condensed Message ---------------");
-  // console.log("");
-  // console.log("---------- End of Huskit Commit Handler -----------");
-  // console.log("");
+  const parser = new ArgumentParser({
+    description:
+      "🚀 A powerful CLI tool to automate and enhance your commit messages using AI.",
+  });
 
-  // const parser = new ArgumentParser({
-  //   description: "A simple CLI tool to generate commit messages",
-  // });
+  parser.add_argument("-v", "--version", {
+    action: "version",
+    help: "📦 Show the currently installed version of the package.",
+    version: await NpmService.get_package_version(),
+  });
 
-  // const sum = (ints: number[]) => ints.reduce((a, b) => a + b, 0);
-  // const max = (ints: number[]) =>
-  //   ints.reduce((a, b) => Math.max(a, b), -Infinity);
+  parser.add_argument("-l", "--latest", {
+    action: "version",
+    help: "🛰️ Check for the latest available version of the package from the npm registry.",
+    version: await NpmService.get_latest_package_version(),
+  });
 
-  // parser.add_argument("integers", {
-  //   metavar: "N",
-  //   type: "int",
-  //   nargs: "+",
-  //   help: "an integer for the accumulator",
-  // });
+  const subparsers = parser.add_subparsers({
+    dest: "command",
+    help: "Available commands",
+  });
 
-  // parser.add_argument("--sum", {
-  //   dest: "accumulate",
-  //   action: "store_const",
-  //   const: sum,
-  //   default: max,
-  //   help: "sum the integers (default: find the max)",
-  // });
+  // --- Commit Command ---
+  const commitParser = subparsers.add_parser("commit", {
+    help: "💬 Generate a commit message using AI.",
+    description:
+      "Generate a commit message using AI based on the staged changes and the current commit message.",
+  });
 
-  // const args = parser.parse_args();
-  // console.log(args.accumulate(args.integers));
+  commitParser.add_argument("-m", "--message", {
+    action: "store",
+    help: "💬 Generate a commit message using AI based on the staged changes and the current commit message.",
+  });
 
-  const latestVersion = await NpmService.get_latest_package_version();
-  console.log(latestVersion);
+  // --- Config Command ---
+  const configParser = subparsers.add_parser("config", {
+    help: "⚙️ Manage the configuration for the AI model and API keys.",
+    description:
+      "Set or reset the configuration for the AI models and API keys used for generating commit messages.",
+  });
+
+  configParser.add_argument("-l", "--list", {
+    action: "store_true",
+    help: "💾 List the current configuration.",
+  });
+
+  configParser.add_argument("-p", "--provider", {
+    action: "store",
+    help: "🧠 set the provider of the AI model (ollama, deepseek, openai)",
+  });
+
+  // --- Deepseek ---
+  configParser.add_argument("-m", "--deepseek-model", {
+    action: "store",
+    help: "🧠 Set the name of the AI model to use (e.g., 'deepseek-r1:8b').",
+  });
+
+  configParser.add_argument("-k", "--deepseek-api-key", {
+    action: "store",
+    help: "🔑 Set the API key for the selected AI service.",
+  });
+
+  configParser.add_argument("-ml", "--deepseek-max-length", {
+    action: "store",
+    help: "set the max length of the commit message",
+  });
+
+  configParser.add_argument("-r", "--reset", {
+    action: "store_true",
+    help: "🔄 Reset the entire configuration to its default settings.",
+  });
+
+  // --- Husky Command ---
+  const huskyParser = subparsers.add_parser("husky", {
+    help: "🐶 Manage the Husky configuration for the commit message hook.",
+    description:
+      "Set up or check the Husky configuration for the commit message hook.",
+  });
+
+  huskyParser.add_argument("-i", "--install", {
+    action: "store_true",
+    help: "🐶 Install the Husky commit message hook.",
+  });
+
+  huskyParser.add_argument("-u", "--uninstall", {
+    action: "store_true",
+    help: "🐶 Uninstall the Husky commit message hook.",
+  });
+
+  const args = parser.parse_args();
+
+  if (args.command === "commit") {
+    await commitHandler();
+  }
+
+  if (args.command === "config") {
+    configHandler(args);
+  }
+
+  if (args.command === "husky") {
+    await huskyHandler(args);
+  }
 })();

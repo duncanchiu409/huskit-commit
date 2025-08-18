@@ -11,9 +11,15 @@ importers:
       '@types/argparse':
         specifier: ^2.0.17
         version: 2.0.17
-      argparser:
-        specifier: ^0.2.2
-        version: 0.2.2
+      argparse:
+        specifier: ^2.0.1
+        version: 2.0.1
+      chalk:
+        specifier: 4.1.2
+        version: 4.1.2
+      consola:
+        specifier: ^3.4.2
+        version: 3.4.2
       dotenv:
         specifier: ^17.2.1
         version: 17.2.1
@@ -316,9 +322,6 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
-  argparser@0.2.2:
-    resolution: {integrity: sha512-zDwqjZyPY5WrqBHSRdkRxcxodMEe+/H0jH2Fke4L6ppCIXd3ssUEGnG0sRLkbF6/cdcZwlWwma5Wm+isDT3Yig==}
-
   array-ify@1.0.0:
     resolution: {integrity: sha512-c5AMf34bKdvPhQ7tBGhqkgKNUzMr4WUs+WDtC2ZUGOUncbxKMTvqxYctiseW3+L4bA8ec+GcZ6/A/FW4m8ukng==}
 
@@ -369,8 +372,8 @@ packages:
     resolution: {integrity: sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA==}
     engines: {node: '>=10'}
 
-  chalk@5.5.0:
-    resolution: {integrity: sha512-1tm8DTaJhPBG3bIkVeZt1iZM9GfSX2lzOeDVZH9R9ffRHpmHvxZ/QhgQH/aDTkswQVt+YHdXAdS/In/30OjCbg==}
+  chalk@5.6.0:
+    resolution: {integrity: sha512-46QrSQFyVSEyYAgQ22hQ+zDa60YHA4fBstHmtSApj1Y5vKtG27fWowW03jCk5KcbXEWPZUIR894aARCA/G1kfQ==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
 
   chokidar@3.6.0:
@@ -426,6 +429,10 @@ packages:
   concat-stream@2.0.0:
     resolution: {integrity: sha512-MWufYdFw53ccGjCA+Ol7XJYpAlW6/prSMzuPOTRnJGcGzuhLn4Scrz7qf6o8bROZ514ltazcIFJZevcfbo0x7A==}
     engines: {'0': node >= 6.0}
+
+  consola@3.4.2:
+    resolution: {integrity: sha512-5IKcdX0nnYavi6G7TtOhwkYzyjfJlatbjMjuLSfE2kYT5pMDOilZ4OvMhi637CcDICTmz3wARPoyhqyX1Y+XvA==}
+    engines: {node: ^14.18.0 || >=16.10.0}
 
   conventional-changelog-angular@5.0.13:
     resolution: {integrity: sha512-i/gipMxs7s8L/QeuavPF2hLnJgH6pEZAttySB6aiQLWcX3puWDL3ACVmvBhJGxnAy52Qc15ua26BufY6KpmrVA==}
@@ -1857,8 +1864,6 @@ snapshots:
 
   argparse@2.0.1: {}
 
-  argparser@0.2.2: {}
-
   array-ify@1.0.0: {}
 
   arrify@1.0.1: {}
@@ -1905,7 +1910,7 @@ snapshots:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
 
-  chalk@5.5.0: {}
+  chalk@5.6.0: {}
 
   chokidar@3.6.0:
     dependencies:
@@ -1978,6 +1983,8 @@ snapshots:
       inherits: 2.0.4
       readable-stream: 3.6.2
       typedarray: 0.0.6
+
+  consola@3.4.2: {}
 
   conventional-changelog-angular@5.0.13:
     dependencies:
@@ -2480,7 +2487,7 @@ snapshots:
 
   lint-staged@15.5.2:
     dependencies:
-      chalk: 5.5.0
+      chalk: 5.6.0
       commander: 13.1.0
       debug: 4.4.1(supports-color@5.5.0)
       execa: 8.0.1

@@ -1,5 +1,4 @@
 import ollama from "ollama";
-import { generate_commit_message_prompt } from "../prompt";
 
 class OllamaService {
   private selectedModel: string;
@@ -8,13 +7,22 @@ class OllamaService {
     this.selectedModel = model;
   }
 
-  async chat(commitMessage: string, diff: string) {
+  async get_available_models() {
+    const response = await ollama.list();
+    return response.models.map((model) => model.model);
+  }
+
+  async chat_completions(systemMessage: string, userMessage: string) {
     const response = await ollama.chat({
       model: this.selectedModel,
       messages: [
         {
+          role: "system",
+          content: systemMessage,
+        },
+        {
           role: "user",
-          content: generate_commit_message_prompt(commitMessage, diff),
+          content: userMessage,
         },
       ],
       think: false,

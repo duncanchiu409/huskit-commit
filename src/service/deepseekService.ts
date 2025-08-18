@@ -1,27 +1,30 @@
 import OpenAI from "openai";
-import { generate_commit_message_prompt } from "../prompt";
 
-type DeepSeekModels = "deepseek-chat" | "deepseek-reasoner";
+export type DeepSeekModels = "deepseek-chat" | "deepseek-reasoner";
 
 class DeepSeekService {
   private selectedModel: DeepSeekModels;
   private openai: OpenAI;
 
-  constructor(model: DeepSeekModels) {
+  constructor(model: DeepSeekModels, url: string, apiKey: string) {
     this.selectedModel = model;
     this.openai = new OpenAI({
-      apiKey: process.env.DEEPSEEK_API_KEY,
-      baseURL: "https://api.deepseek.com",
+      baseURL: url,
+      apiKey: apiKey,
     });
   }
 
-  async chat_completions(commitMessage: string, diff: string) {
+  async chat_completions(systemMessage: string, userMessage: string) {
     const response = await this.openai.chat.completions.create({
       model: this.selectedModel,
       messages: [
         {
+          role: "system",
+          content: systemMessage,
+        },
+        {
           role: "user",
-          content: generate_commit_message_prompt(commitMessage, diff),
+          content: userMessage,
         },
       ],
     });
