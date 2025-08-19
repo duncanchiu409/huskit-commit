@@ -1,1 +1,1 @@
-echo $0 $1 $2 $3 $4
+node dist/index.js commit
