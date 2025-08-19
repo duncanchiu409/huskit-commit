@@ -1,7 +1,7 @@
 class HuskitConfig {
   provider: "ollama" | "deepseek" | "openai";
 
-  deepseek_model: string;
+  deepseek_model?: string;
   deepseek_api_key?: string;
   deepseek_api_url: string;
   deepseek_max_commit_message_length: number;
