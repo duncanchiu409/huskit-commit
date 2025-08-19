@@ -2,6 +2,7 @@ import { join } from "node:path";
 import { cwd } from "node:process";
 import { readFileSync } from "node:fs";
 import CLIHelper from "../cli";
+import { LoggerHelperV2, LogLevel } from "../logger";
 
 class GitHelper {
   static async get_current_branch() {
@@ -9,8 +10,27 @@ class GitHelper {
   }
 
   static async get_staged_diff() {
-    const { stdout } = await CLIHelper.execute_command("git diff --cached");
-    return stdout;
+    const command = "git diff --cached --color=always";
+    const command_prefix = command.split(" ")[0];
+    const command_args = command.split(" ").slice(1);
+    const logger = new LoggerHelperV2();
+    try {
+      const { stdout, stderr } =
+        (await CLIHelper.execute_command_with_spawn(
+          command_prefix,
+          command_args,
+        )) ?? {};
+
+      if (stderr) {
+        logger.log(LogLevel.ERROR, "", new Error(`❌ error: ${stderr}`));
+        return "";
+      } else {
+        return stdout ?? "";
+      }
+    } catch (error) {
+      logger.log(LogLevel.ERROR, "", new Error(`❌ error: ${String(error)}`));
+      return "";
+    }
   }
 
   static async get_git_directory() {
