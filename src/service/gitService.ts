@@ -1,6 +1,6 @@
 import { join } from "node:path";
 import { cwd } from "node:process";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import CLIHelper from "../cli";
 import { LoggerHelperV2, LogLevel } from "../logger";
 
@@ -44,6 +44,11 @@ class GitHelper {
     const commitFilePath = join(cwd(), ".git", "COMMIT_EDITMSG");
     const commitMessage = readFileSync(commitFilePath, "utf8");
     return commitMessage.trim();
+  }
+
+  static write_commit_message(commitMessage: string) {
+    const commitFilePath = join(cwd(), ".git", "COMMIT_EDITMSG");
+    writeFileSync(commitFilePath, commitMessage);
   }
 }
 

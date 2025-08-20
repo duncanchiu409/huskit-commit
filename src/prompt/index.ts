@@ -1,9 +1,8 @@
-const generate_system_prompt = () => {
+const generate_system_prompt = (max_length: number) => {
   return `
 You are a software engineer responsible for writing commit messages. 
-You are given the two pieces of information:
+You are given the one pieces of information:
 - The diff of the staged changes
-- The user's high level description of the changes
 
 Your task is to analyze the diff of the staged changes and determine the most conventional commit type and message.
 
@@ -40,14 +39,18 @@ Explain the what and why of the change in more detail. Use the user's request to
 Elaborate on the subject line, providing context that the subject cannot fit.
 Use full sentences and proper grammar.
 Wrap lines manually at 72 characters to ensure readability in git logs.
+
+Answer user with the commit message in the above format without any explanation.
+Answer should not include any code block.
+Answer should be within the max length of ${max_length} characters.
 `;
 };
 
-const generate_user_prompt = (git_diff: string, commit_message: string) => {
-  return `Answer me with the exact commit message without any explanation.
-  Here is the diff of the staged changes: ${git_diff}
-  Can you based on the above changes and the commit message: ${commit_message}, write a short commit message?
-  Answer me with the exact commit message without any explanation.`;
+const generate_user_prompt = (git_diff: string, user_description: string) => {
+  return `
+Here is the diff of the staged changes: ${git_diff}
+Here is the user's high level description of the changes: ${user_description}
+`;
 };
 
 export { generate_system_prompt, generate_user_prompt };

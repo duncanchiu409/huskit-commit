@@ -22,9 +22,16 @@ class ApiUrlNotSetError extends Error {
   }
 }
 
+class ModelNotAvailableError extends Error {
+  constructor(model: string) {
+    super(`${model} model is not available`);
+  }
+}
+
 export default {
   ProviderNotSetError,
   ModelNotSetError,
   ApiKeyNotSetError,
   ApiUrlNotSetError,
+  ModelNotAvailableError,
 };

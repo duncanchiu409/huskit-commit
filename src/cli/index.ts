@@ -24,30 +24,51 @@ class CLIHelper {
   static async execute_command_with_spawn(command: string, args: string[]) {
     const logger = new LoggerHelperV2();
     try {
-      logger.log(LogLevel.INFO, `🚀 Executing command: ${command}`);
-      const child = spawn(command, args);
-      const outputChunks: Buffer[] = [];
-      const errorChunks: Buffer[] = [];
-      child.stdout.on("data", (data) => {
-        outputChunks.push(data);
-      });
-      child.stderr.on("data", (data) => {
-        errorChunks.push(data);
-      });
-      child.on("close", (code) => {
-        if (code === 0) {
-          const capturedOutput = Buffer.concat(outputChunks);
-          const capturedError = Buffer.concat(errorChunks);
-          logger.log(LogLevel.INFO, `✅ stdout: ${capturedOutput}`);
-          return { stdout: capturedOutput, stderr: capturedError };
-        } else {
-          logger.log(
-            LogLevel.ERROR,
-            `${command} failed with the code: ${code}`,
-          );
-          return { stdout: "", stderr: "" };
-        }
-      });
+      logger.log(
+        LogLevel.INFO,
+        `🚀 Executing command: ${command} ${args.join(" ")}`,
+      );
+
+      const result = await new Promise<{ stdout: string; stderr: string }>(
+        (resolve, reject) => {
+          const child = spawn(command, args);
+          const outputChunks: Buffer[] = [];
+          const errorChunks: Buffer[] = [];
+
+          child.stdout.on("data", (data) => {
+            outputChunks.push(data);
+          });
+
+          child.stderr.on("data", (data) => {
+            errorChunks.push(data);
+          });
+
+          child.on("error", (error) => {
+            reject(error);
+          });
+
+          child.on("close", (code) => {
+            const stdout = Buffer.concat(outputChunks).toString();
+            const stderr = Buffer.concat(errorChunks).toString();
+
+            if (code === 0) {
+              resolve({ stdout, stderr });
+            } else {
+              reject(
+                new Error(
+                  `${command} failed with code ${code}. Stderr: ${stderr}`,
+                ),
+              );
+            }
+          });
+        },
+      );
+
+      logger.log(LogLevel.INFO, `✅ stdout: ${result.stdout}`);
+      if (result.stderr) {
+        logger.log(LogLevel.WARN, `⚠️ stderr: ${result.stderr}`);
+      }
+      return result;
     } catch (error) {
       logger.log(LogLevel.ERROR, "", new Error(`❌ error: ${String(error)}`));
       return { stdout: "", stderr: String(error) };

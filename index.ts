@@ -103,7 +103,7 @@ import { commitHandler } from "./src/handler/commitHandler";
   const args = parser.parse_args();
 
   if (args.command === "commit") {
-    await commitHandler();
+    await commitHandler(args);
   }
 
   if (args.command === "config") {
