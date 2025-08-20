@@ -28,10 +28,17 @@ class ModelNotAvailableError extends Error {
   }
 }
 
+class OllamaCopyError extends Error {
+  constructor(source: string, destination: string) {
+    super(`Failed to copy the ollama model: ${source} to ${destination}`);
+  }
+}
+
 export default {
   ProviderNotSetError,
   ModelNotSetError,
   ApiKeyNotSetError,
   ApiUrlNotSetError,
   ModelNotAvailableError,
+  OllamaCopyError,
 };
