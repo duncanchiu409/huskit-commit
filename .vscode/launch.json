@@ -6,7 +6,7 @@
       "name": "[LOCAL] Huskit Commit",
       "runtimeVersion": "18.20.8",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": ["run-script", "start"],
+      "runtimeArgs": ["run-script", "start", "commit"],
       "console": "integratedTerminal",
       "env": {
         "NODE_ENV": "local"
