@@ -1,3 +1,5 @@
+import CommitLog from "./commitLog";
+
 class HuskitConfig {
   provider: "ollama" | "deepseek" | "openai";
 
@@ -16,6 +18,8 @@ class HuskitConfig {
   ollama_api_url?: string;
   ollama_max_commit_message_length?: number;
 
+  commit_log_list: CommitLog[];
+
   constructor() {
     this.provider = "deepseek";
 
@@ -26,6 +30,8 @@ class HuskitConfig {
     this.ollama_model = "deepseek-r1:8b";
     this.ollama_api_url = "http://localhost:11434";
     this.ollama_max_commit_message_length = 200;
+
+    this.commit_log_list = [];
   }
 }
 

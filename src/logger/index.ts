@@ -1,31 +1,9 @@
-import { join } from "node:path";
-import { cwd } from "node:process";
-import { createLogger, format, Logger, transports } from "winston";
-import { LOG_FILE } from "../constant";
-
-class LoggerHelper {
-  private logger: Logger;
-
-  constructor(level: string = "verbose") {
-    this.logger = createLogger({
-      level: level,
-      format: format.combine(format.colorize(), format.simple()),
-      transports: [
-        new transports.Console(),
-        new transports.File({
-          filename: join(cwd(), "logs", LOG_FILE),
-        }),
-      ],
-    });
-    this.log = this.log.bind(this);
-  }
-
-  async log(level: string, message: string) {
-    this.logger.log(level, message);
-  }
-}
-
-import { createConsola, ConsolaInstance, ConsolaOptions } from "consola";
+import {
+  createConsola,
+  ConsolaInstance,
+  ConsolaOptions,
+  PromptOptions,
+} from "consola";
 
 enum LogLevel {
   INFO = "info",
@@ -69,6 +47,10 @@ class LoggerHelperV2 {
         break;
     }
   }
+
+  async prompt(message: string, options: PromptOptions) {
+    return await this.logger.prompt(message, options);
+  }
 }
 
-export { LoggerHelper, LoggerHelperV2, LogLevel };
+export { LoggerHelperV2, LogLevel };

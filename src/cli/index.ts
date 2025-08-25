@@ -48,8 +48,8 @@ class CLIHelper {
           });
 
           child.on("close", (code) => {
-            const stdout = Buffer.concat(outputChunks).toString();
-            const stderr = Buffer.concat(errorChunks).toString();
+            const stdout = Buffer.concat(outputChunks).toString("utf-8");
+            const stderr = Buffer.concat(errorChunks).toString("utf-8");
 
             if (code === 0) {
               resolve({ stdout, stderr });

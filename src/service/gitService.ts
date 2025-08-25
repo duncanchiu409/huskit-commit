@@ -10,7 +10,7 @@ class GitHelper {
   }
 
   static async get_staged_diff() {
-    const command = "git diff --cached --color=always";
+    const command = "git diff --cached --color=never";
     const command_prefix = command.split(" ")[0];
     const command_args = command.split(" ").slice(1);
     const logger = new LoggerHelperV2();

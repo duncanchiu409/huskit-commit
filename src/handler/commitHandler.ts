@@ -8,7 +8,6 @@ import Error from "../error";
 import chalk from "chalk";
 import { v4 as uuidv4 } from "uuid";
 import CommitLog from "../model/commitLog";
-import LocalCommitLogService from "../service/localCommitLogService";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function commitHandler(args: any) {
@@ -110,10 +109,11 @@ async function commitHandler(args: any) {
     commitLog.id = uuidv4();
     commitLog.provider = config.provider;
     commitLog.providerModel = providerModel;
+    commitLog.providerPrompt = userPrompt;
     commitLog.authorCommitMessage = commitMessage;
     commitLog.providerCommitMessage = response ?? "";
-    const localCommitLogService = new LocalCommitLogService();
-    localCommitLogService.appendCommitLog(commitLog);
+    config.commit_log_list.push(commitLog);
+    ConfigService.write_config_file(config);
     logger.log(LogLevel.INFO, `🚀 Commit log: ${commitLog.id} saved`);
   }
 }

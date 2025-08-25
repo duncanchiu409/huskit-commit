@@ -34,6 +34,12 @@ class OllamaCopyError extends Error {
   }
 }
 
+class UnknownError extends Error {
+  constructor(error: unknown) {
+    super(`Unknown error: ${error}`);
+  }
+}
+
 export default {
   ProviderNotSetError,
   ModelNotSetError,
@@ -41,4 +47,5 @@ export default {
   ApiUrlNotSetError,
   ModelNotAvailableError,
   OllamaCopyError,
+  UnknownError,
 };
